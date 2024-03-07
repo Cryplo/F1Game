@@ -37,10 +37,12 @@ public class PlayerMovementScript : MonoBehaviour
     float turnAmount = 0f;
     bool wrongWay = false;
     bool cautious = true;
+    bool onEdge = false;
     Vector2 pastPosition = Vector2.zero;
     // Start is called before the first frame update
     void Start()
     {
+    
         //if(isAI)accelerationFactor += Random.value * 0.5f - 0.25f;
         aggression = (Random.value * 4 - 2);
         //aggression = 0;
@@ -57,6 +59,7 @@ public class PlayerMovementScript : MonoBehaviour
 
     void FixedUpdate()
     {
+        Debug.Log(gameObject.name + " " + onTrack);
         updateInputVector();
         ApplyEngineForce();
         KillOrthogonalVelocity();
@@ -178,9 +181,9 @@ public class PlayerMovementScript : MonoBehaviour
         float angleToTarget = Vector2.SignedAngle(transform.up, target);
         angleToTarget *= -1;
         Debug.Log(angleToTarget);
-        input.x = Mathf.Sign(angleToTarget) * 6;
+        //input.x = Mathf.Sign(angleToTarget) * 12;
         //input.x = Mathf.Sign(angleToTarget) * 7 * Mathf.Clamp(Mathf.Abs(angleToTarget), 0, 1);
-        //input.x = Mathf.Sign(angleToTarget) * 7 * Mathf.Clamp(Mathf.Abs(angleToTarget) / 5f, 0, 1);
+        input.x = Mathf.Sign(angleToTarget) * 25 * Mathf.Clamp(Mathf.Abs(angleToTarget) / 4f, 0, 1);
         //input.x = Mathf.Sign(angleToTarget) * 7 * Mathf.Abs(angleToTarget) / 90f;
         //
 
@@ -229,7 +232,7 @@ public class PlayerMovementScript : MonoBehaviour
                 }
                 if (hits[1].collider.name != "TrackCollider")
                 {
-                    carFactor = 2f;
+                    carFactor = 1.5f;
                     if(i == 0)
                     {
                         Vector3 relative = hits[1].collider.GetComponent<Rigidbody2D>().velocity - myRigidbody2D.velocity;
@@ -252,7 +255,7 @@ public class PlayerMovementScript : MonoBehaviour
             //float moveForwardDist = (realDist - (distance) + 1);
 
             //turn type 1
-            input += new Vector2(Mathf.Sign(i) * modifiedDist * carFactor, 0);
+            if(carFactor != 1)input += new Vector2(Mathf.Sign(i) * modifiedDist * carFactor, 0);
 
             //turn type 2
             //input += new Vector2((Mathf.Sign(i) + Mathf.Sin(Mathf.Deg2Rad * i)) * modifiedDist * carFactor, 0);
@@ -401,6 +404,13 @@ public class PlayerMovementScript : MonoBehaviour
         Vector2 engineForceVector = transform.up * accelerationInput * accelerationFactor;
 
         myRigidbody2D.AddForce(engineForceVector, ForceMode2D.Force);
+    }
+
+    public void rotateRigidBodyAroundPointBy(Rigidbody rb, Vector3 origin, Vector3 axis, float angle)
+    {
+        Quaternion q = Quaternion.AngleAxis(angle, axis);
+        rb.MovePosition(q * (rb.transform.position - origin) + origin);
+        rb.MoveRotation(rb.transform.rotation * q);
     }
 
     void ApplySteering()

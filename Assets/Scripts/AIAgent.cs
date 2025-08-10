@@ -28,7 +28,7 @@ public class AIAgentScript : Agent
 
     void CollectObservations()
     {
-        // collect car velocity
+        // collect linear car velocity
         sensor.AddObservation(playerMovementScript.GetCarLinearVelocity());
 
         //collect when at next waypoint (this should also solve the reverse direction issue)
@@ -38,20 +38,19 @@ public class AIAgentScript : Agent
         //collect distance to next waypoint
         sensor.AddObservation(playerMovementScript.DistanceToNextWaypoint());
 
-        // collect ray cast
-        //something along the lines like this, with 1 being optimal (furthest distance away)
-        /*
-        // Detect wall
-        if (Physics.Raycast(transform.position, dir, out RaycastHit hitWall, maxDistance, wallMask))
-            sensor.AddObservation(hitWall.distance / maxDistance);
-        else
-            sensor.AddObservation(1f);
+        //collect if on track
+        sensor.AddObservation(playerMovementScript.IsOnTrack());
 
-        // Detect car
-        if (Physics.Raycast(transform.position, dir, out RaycastHit hitCar, maxDistance, carMask))
-            sensor.AddObservation(hitCar.distance / maxDistance);
-        else
-            sensor.AddObservation(1f);
-        */
+        //collect the raycast results
+        List<float> raycastResults = playerMovementScript.GetRaycastResults();
+        for (int i = 0; i < raycastResults.length(); i++)
+        {
+            sensor.AddObservation(raycastResults[i]);
+        }
+
     }
+    //actions are left/right arrow (or none) (three options)
+    //forward/backward (or none) (three options)
+    //space (or none) (two options)
+    
 }

@@ -141,6 +141,7 @@ public class PlayerMovementScript : MonoBehaviour
     }
 
 
+    /*
     //original code
     //https://stackoverflow.com/questions/51905268/how-to-find-closest-point-on-line
     Vector2 calculateInput()
@@ -318,7 +319,7 @@ public class PlayerMovementScript : MonoBehaviour
         }
 
         return input;
-    }
+    }*/
 
     void updateInputVector()
     {
@@ -337,7 +338,7 @@ public class PlayerMovementScript : MonoBehaviour
         //this is where I would implement AI
         else
         {
-            inputVector = calculateInput();
+            inputVector = GetAIInput();
         }
         steeringInput = inputVector.x;
         //if (!isAI) {
@@ -356,7 +357,7 @@ public class PlayerMovementScript : MonoBehaviour
         //detect slip stream
         if (!isAI)
         {
-            float distance = maxSpeed;
+            float distance = maxSpeed; //this is inconsistent with the other raycasting
             Vector2 direction = Rotate(transform.up, 0);
             Vector2 position = transform.position;
             RaycastHit2D[] hits = Physics2D.RaycastAll(position, direction, distance, LayerMask.GetMask("AIAvoid"));
@@ -394,13 +395,6 @@ public class PlayerMovementScript : MonoBehaviour
         Vector2 engineForceVector = transform.up * accelerationInput * accelerationFactor;
 
         myRigidbody2D.AddForce(engineForceVector, ForceMode2D.Force);
-    }
-
-    public void rotateRigidBodyAroundPointBy(Rigidbody rb, Vector3 origin, Vector3 axis, float angle)
-    {
-        Quaternion q = Quaternion.AngleAxis(angle, axis);
-        rb.MovePosition(q * (rb.transform.position - origin) + origin);
-        rb.MoveRotation(rb.transform.rotation * q);
     }
 
     void ApplySteering()
@@ -480,5 +474,55 @@ public class PlayerMovementScript : MonoBehaviour
     public float DistanceToNextWaypoint()
     {
         return (nextWaypoint.gameObject.transform.position - gameObject.transform.position).magnitude;
+    }
+
+    public bool IsOnTrack()
+    {
+        return onTrack;
+    }
+
+    //61 * 2 = 122 items in list
+    // -90 car distance, -90 wall distance, -87 car distance, -87 wall distance, etc....
+    // "distance" will be a percentange of max distance
+    public List<float> GetRaycastResults()
+    {
+        float raycastDistance = maxSpeed * 2;
+        List<float> raycastResults = new List<float>();
+        for (int i = -90; i <= 90; i += 3)
+        {
+            Vector2 direction = Rotate(transform.up, i);
+            Vector2 position = (Vector2)transform.position;
+            RaycastHit2D[] hits = Physics2D.RaycastAll(position, direction, raycastDistance, LayerMask.GetMask("AIAvoid"));
+            //Debug.DrawRay(position, direction * distance, UnityEngine.Color.green);
+            //float realDist;
+            //float carFactor = 1;
+            // the first hit will be itself, so ignore that
+            float percentDistanceToNearestCar = 1;
+            float percentDistanceToNearestTrack = 1;
+            if (hits.Length > 1)
+            {
+                //start at 1 to avoid the first hit (which is itself)
+                for (int j = 1; j < hits.Length; j++)
+                {
+                    //either a car
+                    if (hits[j].collider.name != "TrackCollider")
+                    {
+                        percentDistanceToNearestCar = Mathf.Min(hits[j].distance / distance, percentDistanceToNearestCar);
+                    }
+                    // or a track
+                    else
+                    {
+                        percentDistanceToNearestTrack = Mathf.Min(hits[j].distance / distance, percentDistanceToNearestTrack);
+                    }
+                }
+            }
+            raycastResults.Add(percentDistanceToNearestCar);
+            raycastResults.Add(percentDistanceToNearestTrack);
+        }
+    }
+
+    private Vector2 GetAIInput()
+    {
+        
     }
 }

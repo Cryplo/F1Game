@@ -19,7 +19,7 @@ public class LapCheckerScript : MonoBehaviour
     void Update()
     {
         currentTime += Time.deltaTime;
-        text.GetComponent<Text>().text = currentTime.ToString() + "\n" + lastTime.ToString() + "\n\n" + rb.velocity.magnitude;
+        text.GetComponent<Text>().text = currentTime.ToString() + "\n" + lastTime.ToString() + "\n\n" + rb.linearVelocity.magnitude;
     }
 
     void OnTriggerEnter2D(Collider2D collision)

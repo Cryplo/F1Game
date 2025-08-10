@@ -1,4 +1,4 @@
-using Newtonsoft.Json.Linq;
+//using Newtonsoft.Json.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
@@ -42,7 +42,7 @@ public class PlayerMovementScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-    
+
         //if(isAI)accelerationFactor += Random.value * 0.5f - 0.25f;
         aggression = (Random.value * 4 - 2);
         //aggression = 0;
@@ -54,7 +54,7 @@ public class PlayerMovementScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     void FixedUpdate()
@@ -66,7 +66,7 @@ public class PlayerMovementScript : MonoBehaviour
         ApplySteering();
     }
 
-  Vector2 Rotate(Vector2 v, float degrees)
+    Vector2 Rotate(Vector2 v, float degrees)
     {
         float sin = Mathf.Sin(degrees * Mathf.Deg2Rad);
         float cos = Mathf.Cos(degrees * Mathf.Deg2Rad);
@@ -103,21 +103,11 @@ public class PlayerMovementScript : MonoBehaviour
 
         Vector2 target = (closestPosition - (Vector2)gameObject.transform.position).normalized * 1.5f + ((Vector2)nextWaypoint.gameObject.transform.position - (Vector2)gameObject.transform.position).normalized;
         target.Normalize();
-        Debug.DrawRay(gameObject.transform.position,target);
+        Debug.DrawRay(gameObject.transform.position, target);
         float angleToTarget = Vector2.SignedAngle(transform.up, target);
         angleToTarget *= -1;
         input.x = Mathf.Sign(angleToTarget);
         return input;
-    }
-
-    void waypointCheck()
-    {
-        if((nextWaypoint.gameObject.transform.position - gameObject.transform.position).magnitude <= 7)
-        {
-            pastPosition = nextWaypoint.gameObject.transform.position;
-            nextWaypoint = nextWaypoint.GetComponent<WaypointScript>().getNext();
-            if (cautious) cautious = false;
-        }
     }
 
     void wrongWayCheck(out bool wrongWayHolder, out Vector2 input)
@@ -156,7 +146,6 @@ public class PlayerMovementScript : MonoBehaviour
     Vector2 calculateInput()
     {
         Vector2 input = Vector2.zero;
-        waypointCheck();
         bool wrongWayHolder = false;
         wrongWayCheck(out wrongWayHolder, out input);
         if (wrongWayHolder)
@@ -203,9 +192,9 @@ public class PlayerMovementScript : MonoBehaviour
             if (hits.Length > 1)
             {
                 realDist = hits[1].distance;
-                if(i == 0)
+                if (i == 0)
                 {
-                    for(int j = 1; j < hits.Length; j++)
+                    for (int j = 1; j < hits.Length; j++)
                     {
                         if (hits[j].collider.name == "TrackCollider")
                         {
@@ -215,9 +204,9 @@ public class PlayerMovementScript : MonoBehaviour
                         }
                     }
                 }
-                if(Mathf.Abs(i) <= 5)
+                if (Mathf.Abs(i) <= 5)
                 {
-                    for(int j = 1; j < hits.Length; j++)
+                    for (int j = 1; j < hits.Length; j++)
                     {
                         if (hits[j].collider.name != "TrackCollider")
                         {
@@ -228,20 +217,20 @@ public class PlayerMovementScript : MonoBehaviour
                             }
                         }
                     }
-                    
+
                 }
                 if (hits[1].collider.name != "TrackCollider")
                 {
                     carFactor = 1.5f;
-                    if(i == 0)
+                    if (i == 0)
                     {
-                        Vector3 relative = hits[1].collider.GetComponent<Rigidbody2D>().velocity - myRigidbody2D.velocity;
-                        if(relative.sqrMagnitude - 2 * (accelerationFactor * brakeFactor * Mathf.Abs(relative.magnitude) * hits[1].distance) > 0)
+                        Vector3 relative = hits[1].collider.GetComponent<Rigidbody2D>().linearVelocity - myRigidbody2D.linearVelocity;
+                        if (relative.sqrMagnitude - 2 * (accelerationFactor * brakeFactor * Mathf.Abs(relative.magnitude) * hits[1].distance) > 0)
                         {
                             carRelVelocity = relative.magnitude;
                         }
                     }
-                    
+
                 }
             }
             else
@@ -249,13 +238,13 @@ public class PlayerMovementScript : MonoBehaviour
                 realDist = distance;
             }
             //Debug.DrawRay(position, direction * realDist, Color.red);
-                
-            float modifiedDist = 1 / Mathf.Pow(realDist, 1f/2f); //good range between 0.4 and 0.6
+
+            float modifiedDist = 1 / Mathf.Pow(realDist, 1f / 2f); //good range between 0.4 and 0.6
             //float modifiedDist = 1 / Mathf.Pow(realDist, 1);
             //float moveForwardDist = (realDist - (distance) + 1);
 
             //turn type 1
-            if(carFactor != 1)input += new Vector2(Mathf.Sign(i) * modifiedDist * carFactor, 0);
+            if (carFactor != 1) input += new Vector2(Mathf.Sign(i) * modifiedDist * carFactor, 0);
 
             //turn type 2
             //input += new Vector2((Mathf.Sign(i) + Mathf.Sin(Mathf.Deg2Rad * i)) * modifiedDist * carFactor, 0);
@@ -264,11 +253,11 @@ public class PlayerMovementScript : MonoBehaviour
             //input += new Vector2(Mathf.Sin(Mathf.Deg2Rad * i) * modifiedDist * carFactor, 0);
             if (Mathf.Abs(i) == 0)
             {
-                float corneringSpeed = Mathf.Max(maxSpeed + aggression - myRigidbody2D.velocity.magnitude - 18, 0);
+                float corneringSpeed = Mathf.Max(maxSpeed + aggression - myRigidbody2D.linearVelocity.magnitude - 18, 0);
                 if (cautious) corneringSpeed = 0;
                 //float corneringSpeed = aggression;
                 //corneringSpeed = 0;
-                if (myRigidbody2D.velocity.sqrMagnitude - 2 * (accelerationFactor * brakeFactor * Mathf.Abs(myRigidbody2D.velocity.magnitude)) * frontRealDist > Mathf.Pow(corneringSpeed, 2))
+                if (myRigidbody2D.linearVelocity.sqrMagnitude - 2 * (accelerationFactor * brakeFactor * Mathf.Abs(myRigidbody2D.linearVelocity.magnitude)) * frontRealDist > Mathf.Pow(corneringSpeed, 2))
                 {
                     input.y = -1;
                 }
@@ -279,34 +268,34 @@ public class PlayerMovementScript : MonoBehaviour
             }
         }
         input.y = Mathf.Sign(input.y);
-        if(input.y == -1)
+        if (input.y == -1)
         {
-            input.y = -1 * brakeFactor * Mathf.Abs(myRigidbody2D.velocity.magnitude);
+            input.y = -1 * brakeFactor * Mathf.Abs(myRigidbody2D.linearVelocity.magnitude);
         }
-        if(input.y == 1)
+        if (input.y == 1)
         {
             if (overtake && !cautious)
             {
                 input.y += 0.5f;
                 Debug.Log("Overtake!!!");
             }
-            if(carRelVelocity != -1)
+            if (carRelVelocity != -1)
             {
-                if(frontRealDist < 8 && !cautious)
+                if (frontRealDist < 8 && !cautious)
                 {
-                    input.y = -1 * brakeFactor * Mathf.Abs(myRigidbody2D.velocity.magnitude);
+                    input.y = -1 * brakeFactor * Mathf.Abs(myRigidbody2D.linearVelocity.magnitude);
                     //input.y = -carRelVelocity / maxSpeed;
                 }
-                else if(frontRealDist < 20 && cautious)
+                else if (frontRealDist < 20 && cautious)
                 {
-                    input.y = -1 * brakeFactor * Mathf.Abs(myRigidbody2D.velocity.magnitude);
+                    input.y = -1 * brakeFactor * Mathf.Abs(myRigidbody2D.linearVelocity.magnitude);
                 }
             }
         }
         //if (Mathf.Abs(input.x) < 0.5) input.x = 0;
         //else input.x = Mathf.Sign(input.x);
         if (Mathf.Abs(input.x) > 1) input.x = Mathf.Sign(input.x);
-        
+
         if (Mathf.Abs(input.x) < 0.3) input.x = 0;
         //map steering factor
         else
@@ -316,7 +305,7 @@ public class PlayerMovementScript : MonoBehaviour
             float bValue = Mathf.Lerp(0, 1, normal);
             input.x = Mathf.Sign(input.x) * bValue;
         }
-        
+
         if (Mathf.Abs(input.x) <= 0.01)
         {
             randomTurn = (Random.value / 5) + 0.9f;
@@ -341,10 +330,11 @@ public class PlayerMovementScript : MonoBehaviour
             inputVector.y = UnityEngine.Input.GetAxis("Vertical");
             if (UnityEngine.Input.GetKey(KeyCode.Space))
             {
-                inputVector.y = -1 * brakeFactor * Mathf.Abs(myRigidbody2D.velocity.magnitude);
+                inputVector.y = -1 * brakeFactor * Mathf.Abs(myRigidbody2D.linearVelocity.magnitude);
                 //inputVector.y = -1 * brakeFactor;
             }
         }
+        //this is where I would implement AI
         else
         {
             inputVector = calculateInput();
@@ -358,7 +348,7 @@ public class PlayerMovementScript : MonoBehaviour
         if (turnAmount > 0 && inputVector.x < 0)
         {
             steeringInput = 0;
-        }   
+        }
         //steeringInput += Mathf.Sign(inputVector.x); //* Time.deltaTime;
         if (Mathf.Abs(steeringInput) > 1) steeringInput = Mathf.Sign(steeringInput);
         //}
@@ -378,18 +368,18 @@ public class PlayerMovementScript : MonoBehaviour
                 }
             }
         }
-        
+
         accelerationInput = inputVector.y;
         steeringInput = inputVector.x;
         //transform.GetChild(0).GetChild(3).transform.localRotation = Quaternion.Euler(0, 180, -45 * inputVector.x);
         //transform.GetChild(0).GetChild(4).transform.localRotation = Quaternion.Euler(0, 0, -45 * inputVector.x);
-        
+
     }
 
     void ApplyEngineForce()
     {
-        velocityVsUp = Vector2.Dot(transform.up, myRigidbody2D.velocity);
-        if(velocityVsUp > maxSpeed && accelerationInput > 0)
+        velocityVsUp = Vector2.Dot(transform.up, myRigidbody2D.linearVelocity);
+        if (velocityVsUp > maxSpeed && accelerationInput > 0)
         {
             return;
         }
@@ -397,7 +387,7 @@ public class PlayerMovementScript : MonoBehaviour
         {
             return;
         }
-        if(myRigidbody2D.velocity.sqrMagnitude > maxSpeed * maxSpeed && accelerationInput > 0)
+        if (myRigidbody2D.linearVelocity.sqrMagnitude > maxSpeed * maxSpeed && accelerationInput > 0)
         {
             return;
         }
@@ -415,25 +405,25 @@ public class PlayerMovementScript : MonoBehaviour
 
     void ApplySteering()
     {
-        float minSpeedBeforeAllowTurningFactor = myRigidbody2D.velocity.magnitude / 8;
+        float minSpeedBeforeAllowTurningFactor = myRigidbody2D.linearVelocity.magnitude / 8;
         minSpeedBeforeAllowTurningFactor = Mathf.Clamp01(minSpeedBeforeAllowTurningFactor);
         float change = steeringInput * turnFactor;
         rotationAngle = myRigidbody2D.rotation - change;
-        
+
         myRigidbody2D.MoveRotation(rotationAngle);
     }
 
     void KillOrthogonalVelocity()
     {
-        Vector2 forwardVelocity = transform.up * Vector2.Dot(myRigidbody2D.velocity, transform.up);
-        Vector2 rightVelocity = transform.right * Vector2.Dot(myRigidbody2D.velocity, transform.right);
-        myRigidbody2D.velocity = forwardVelocity + rightVelocity * driftFactor;
+        Vector2 forwardVelocity = transform.up * Vector2.Dot(myRigidbody2D.linearVelocity, transform.up);
+        Vector2 rightVelocity = transform.right * Vector2.Dot(myRigidbody2D.linearVelocity, transform.right);
+        myRigidbody2D.linearVelocity = forwardVelocity + rightVelocity * driftFactor;
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        myRigidbody2D.drag = offTrackFactor;
-        if(collision.name == "RaceTrack")
+        myRigidbody2D.linearDamping = offTrackFactor;
+        if (collision.name == "RaceTrack")
         {
             onTrack = false;
         }
@@ -441,29 +431,54 @@ public class PlayerMovementScript : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if(accelerationInput == 0)
+        if (accelerationInput == 0)
         {
-            myRigidbody2D.drag = dragFactor;
+            myRigidbody2D.linearDamping = dragFactor;
         }
         else
         {
-            myRigidbody2D.drag = 0;
+            myRigidbody2D.linearDamping = 0;
         }
-        if(collision.name == "RaceTrack")
+        if (collision.name == "RaceTrack")
         {
             onTrack = true;
         }
-        if(collision.name == "TrackCollider")
+        if (collision.name == "TrackCollider")
         {
             onTrack = false;
         }
     }
 
-    private void OnTriggerEnter2D(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.name == "Square")
+        if (other.name == "Square")
         {
             if (isAI) accelerationFactor += Random.value * 0.5f - 0.25f;
         }
+    }
+
+    public float GetCarLinearVelocity()
+    {
+        return myRigidbody2D.linearVelocity.magnitude;
+    }
+
+    //this is intended for the AIAgent
+    public bool IsAtWaypoint()
+    {
+        bool advanceWaypoint = (nextWaypoint.gameObject.transform.position - gameObject.transform.position).magnitude <= 7;
+
+        if (advanceWaypoint)
+        {
+            pastPosition = nextWaypoint.gameObject.transform.position;
+            nextWaypoint = nextWaypoint.GetComponent<WaypointScript>().getNext();
+            if (cautious) cautious = false;
+        }
+
+        return advanceWaypoint;
+    }
+
+    public float DistanceToNextWaypoint()
+    {
+        return (nextWaypoint.gameObject.transform.position - gameObject.transform.position).magnitude;
     }
 }

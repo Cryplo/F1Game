@@ -38,6 +38,11 @@ public class PlayerMovementScript : MonoBehaviour
     bool wrongWay = false;
     bool cautious = true;
     bool onEdge = false;
+
+    float aiHorizontalInput = 0f;
+    float aiVerticalInput = 0f;
+    bool aiBrakeInput = false;
+
     Vector2 pastPosition = Vector2.zero;
     // Start is called before the first frame update
     void Start()
@@ -325,21 +330,15 @@ public class PlayerMovementScript : MonoBehaviour
     {
         //CHANGE SOMETIME
         Vector2 inputVector = Vector2.zero;
-        if (!isAI)
+
+        inputVector.x = isAI ? aiHorizontalInput : UnityEngine.Input.GetAxis("Horizontal");
+        inputVector.y = isAI ? aiVerticalInput : UnityEngine.Input.GetAxis("Vertical");
+        if (isAI ? aiBrakeInput : UnityEngine.Input.GetKey(KeyCode.Space))
         {
-            inputVector.x = UnityEngine.Input.GetAxis("Horizontal");
-            inputVector.y = UnityEngine.Input.GetAxis("Vertical");
-            if (UnityEngine.Input.GetKey(KeyCode.Space))
-            {
-                inputVector.y = -1 * brakeFactor * Mathf.Abs(myRigidbody2D.linearVelocity.magnitude);
-                //inputVector.y = -1 * brakeFactor;
-            }
+            inputVector.y = -1 * brakeFactor * Mathf.Abs(myRigidbody2D.linearVelocity.magnitude);
+            //inputVector.y = -1 * brakeFactor;
         }
-        //this is where I would implement AI
-        else
-        {
-            inputVector = GetAIInput();
-        }
+
         steeringInput = inputVector.x;
         //if (!isAI) {
         if (turnAmount < 0 && inputVector.x > 0)
@@ -354,7 +353,7 @@ public class PlayerMovementScript : MonoBehaviour
         if (Mathf.Abs(steeringInput) > 1) steeringInput = Mathf.Sign(steeringInput);
         //}
 
-        //detect slip stream
+        //detect slip stream, in the future maybe give AI a slipstream too?
         if (!isAI)
         {
             float distance = maxSpeed; //this is inconsistent with the other raycasting
@@ -521,8 +520,10 @@ public class PlayerMovementScript : MonoBehaviour
         }
     }
 
-    private Vector2 GetAIInput()
+    public void SetAIInputs(float horizontalInput, float verticalInput, bool brakeInput)
     {
-        
+        aiHorizontalInput = horizontalInput;
+        aiVerticalInput = verticalInput;
+        aiBrakeInput = brakeInput;
     }
 }

@@ -64,7 +64,7 @@ public class PlayerMovementScript : MonoBehaviour
 
     void FixedUpdate()
     {
-        Debug.Log(gameObject.name + " " + onTrack);
+        //Debug.Log(gameObject.name + " " + onTrack);
         updateInputVector();
         ApplyEngineForce();
         KillOrthogonalVelocity();
@@ -475,6 +475,11 @@ public class PlayerMovementScript : MonoBehaviour
         return (nextWaypoint.gameObject.transform.position - gameObject.transform.position).magnitude;
     }
 
+    public float DegreesToNextWaypoint()
+    {
+        return Vector2.SignedAngle(transform.up, nextWaypoint.gameObject.transform.position - gameObject.transform.position);
+    }
+
     public bool IsOnTrack()
     {
         return onTrack;
@@ -506,18 +511,19 @@ public class PlayerMovementScript : MonoBehaviour
                     //either a car
                     if (hits[j].collider.name != "TrackCollider")
                     {
-                        percentDistanceToNearestCar = Mathf.Min(hits[j].distance / distance, percentDistanceToNearestCar);
+                        percentDistanceToNearestCar = Mathf.Min(hits[j].distance / raycastDistance, percentDistanceToNearestCar);
                     }
                     // or a track
                     else
                     {
-                        percentDistanceToNearestTrack = Mathf.Min(hits[j].distance / distance, percentDistanceToNearestTrack);
+                        percentDistanceToNearestTrack = Mathf.Min(hits[j].distance / raycastDistance, percentDistanceToNearestTrack);
                     }
                 }
             }
             raycastResults.Add(percentDistanceToNearestCar);
             raycastResults.Add(percentDistanceToNearestTrack);
         }
+        return raycastResults;
     }
 
     public void SetAIInputs(float horizontalInput, float verticalInput, bool brakeInput)
@@ -525,5 +531,38 @@ public class PlayerMovementScript : MonoBehaviour
         aiHorizontalInput = horizontalInput;
         aiVerticalInput = verticalInput;
         aiBrakeInput = brakeInput;
+    }
+
+    public Transform GetStartTransform()
+    {
+        return transform;
+    }
+
+    public void ResetToStartTransform(Vector2 startPosition, Quaternion startRotation)
+    {
+        myRigidbody2D.linearVelocity = Vector2.zero;
+        myRigidbody2D.angularVelocity = 0f;
+        myRigidbody2D.transform.SetPositionAndRotation(startPosition, startRotation);
+
+        accelerationInput = 0;
+        steeringInput = 0;
+        rotationAngle = 0;
+        velocityVsUp = 0;
+        randomGen = 0;
+        aggression = 0;
+        randomTurn = 1;
+        onTrack = true;
+        tightness = 0f;
+        turnAmount = 0f;
+        wrongWay = false;
+        cautious = true;
+        onEdge = false;
+
+        aiHorizontalInput = 0f;
+        aiVerticalInput = 0f;
+        aiBrakeInput = false;
+
+        //Debug.Log("AI has been reset");
+        //Debug.Log(startTransform.position);
     }
 }

@@ -103,7 +103,8 @@ public class AIAgentScript : Agent
             else
             {
                 AddReward(-0.8f * Mathf.Pow(Time.realtimeSinceStartup - lastTimeOffTrack, 2f));
-                if (Time.realtimeSinceStartup - lastTimeOffTrack > 5.0f) endEpisode = true;
+                //don't end episode from now on, only rely on max_steps in the config
+                if (Time.realtimeSinceStartup - lastTimeOffTrack > 5.0f) endEpisode = false;
             }
         }
         //collect the raycast results

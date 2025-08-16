@@ -337,6 +337,7 @@ public class PlayerMovementScript : MonoBehaviour
 
         inputVector.x = isAI ? aiHorizontalInput : UnityEngine.Input.GetAxis("Horizontal");
         inputVector.y = isAI ? aiVerticalInput : UnityEngine.Input.GetAxis("Vertical");
+        if (inputVector.y < 0) inputVector.y = 0;
         if (isAI ? aiBrakeInput : UnityEngine.Input.GetKey(KeyCode.Space))
         {
             inputVector.y = -1 * brakeFactor * Mathf.Abs(myRigidbody2D.linearVelocity.magnitude);
@@ -355,22 +356,18 @@ public class PlayerMovementScript : MonoBehaviour
         }
         //steeringInput += Mathf.Sign(inputVector.x); //* Time.deltaTime;
         if (Mathf.Abs(steeringInput) > 1) steeringInput = Mathf.Sign(steeringInput);
-        if (steeringInput < 0) steeringInput *= 0.5;
         //}
 
         //detect slip stream, in the future maybe give AI a slipstream too?
-        if (!isAI)
+        float distance = maxSpeed; //this is inconsistent with the other raycasting
+        Vector2 direction = Rotate(transform.up, 0);
+        Vector2 position = transform.position;
+        RaycastHit2D[] hits = Physics2D.RaycastAll(position, direction, distance, LayerMask.GetMask("AIAvoid"));
+        if (hits.Length > 1)
         {
-            float distance = maxSpeed; //this is inconsistent with the other raycasting
-            Vector2 direction = Rotate(transform.up, 0);
-            Vector2 position = transform.position;
-            RaycastHit2D[] hits = Physics2D.RaycastAll(position, direction, distance, LayerMask.GetMask("AIAvoid"));
-            if (hits.Length > 1)
+            if (hits[1].collider.name != "TrackCollider" && hits[1].distance < 10)
             {
-                if (hits[1].collider.name != "TrackCollider" && hits[1].distance < 10)
-                {
-                    if (inputVector.y > 0) inputVector.y += 0.5f;
-                }
+                if (inputVector.y > 0) inputVector.y += 0.5f;
             }
         }
 

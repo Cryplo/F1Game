@@ -573,7 +573,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 880c6f7669f3d4581a9fd2e887063968, type: 3}
+  m_Model: {fileID: 0}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: RacingAI
@@ -597,7 +597,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 4000
+  MaxStep: 2000
   playerMovementScript: {fileID: 173314949}
 --- !u!70 &173314948
 CapsuleCollider2D:
@@ -3170,7 +3170,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 880c6f7669f3d4581a9fd2e887063968, type: 3}
+  m_Model: {fileID: 0}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: RacingAI
@@ -3194,7 +3194,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 4000
+  MaxStep: 2000
   playerMovementScript: {fileID: 537971404}
 --- !u!70 &537971403
 CapsuleCollider2D:
@@ -3418,7 +3418,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 880c6f7669f3d4581a9fd2e887063968, type: 3}
+  m_Model: {fileID: 0}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: RacingAI
@@ -3442,7 +3442,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 4000
+  MaxStep: 2000
   playerMovementScript: {fileID: 593097175}
 --- !u!70 &593097174
 CapsuleCollider2D:
@@ -3661,7 +3661,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 880c6f7669f3d4581a9fd2e887063968, type: 3}
+  m_Model: {fileID: 0}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: RacingAI
@@ -3685,7 +3685,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 4000
+  MaxStep: 2000
   playerMovementScript: {fileID: 614180858}
 --- !u!70 &614180857
 CapsuleCollider2D:
@@ -4564,7 +4564,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 880c6f7669f3d4581a9fd2e887063968, type: 3}
+  m_Model: {fileID: 0}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: RacingAI
@@ -4588,7 +4588,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 4000
+  MaxStep: 2000
   playerMovementScript: {fileID: 719637815}
 --- !u!70 &719637814
 CapsuleCollider2D:
@@ -4817,7 +4817,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 880c6f7669f3d4581a9fd2e887063968, type: 3}
+  m_Model: {fileID: 0}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: RacingAI
@@ -4841,7 +4841,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 4000
+  MaxStep: 2000
   playerMovementScript: {fileID: 746014723}
 --- !u!70 &746014722
 CapsuleCollider2D:
@@ -5138,7 +5138,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 880c6f7669f3d4581a9fd2e887063968, type: 3}
+  m_Model: {fileID: 0}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: RacingAI
@@ -5162,7 +5162,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 4000
+  MaxStep: 2000
   playerMovementScript: {fileID: 786270582}
 --- !u!70 &786270581
 CapsuleCollider2D:
@@ -5681,7 +5681,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 880c6f7669f3d4581a9fd2e887063968, type: 3}
+  m_Model: {fileID: 0}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: RacingAI
@@ -5705,7 +5705,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 4000
+  MaxStep: 2000
   playerMovementScript: {fileID: 811452657}
 --- !u!70 &811452656
 CapsuleCollider2D:
@@ -6324,7 +6324,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 880c6f7669f3d4581a9fd2e887063968, type: 3}
+  m_Model: {fileID: 0}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: RacingAI
@@ -6348,7 +6348,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 4000
+  MaxStep: 2000
   playerMovementScript: {fileID: 836828597}
 --- !u!70 &836828596
 CapsuleCollider2D:
@@ -7038,7 +7038,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 880c6f7669f3d4581a9fd2e887063968, type: 3}
+  m_Model: {fileID: 0}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: RacingAI
@@ -7062,7 +7062,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 4000
+  MaxStep: 2000
   playerMovementScript: {fileID: 968418583}
 --- !u!70 &968418582
 CapsuleCollider2D:
@@ -8563,7 +8563,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 880c6f7669f3d4581a9fd2e887063968, type: 3}
+  m_Model: {fileID: 0}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: RacingAI
@@ -8587,7 +8587,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 4000
+  MaxStep: 2000
   playerMovementScript: {fileID: 1217830133}
 --- !u!70 &1217830132
 CapsuleCollider2D:
@@ -9051,7 +9051,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 880c6f7669f3d4581a9fd2e887063968, type: 3}
+  m_Model: {fileID: 0}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: RacingAI
@@ -9075,7 +9075,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 4000
+  MaxStep: 2000
   playerMovementScript: {fileID: 1224649077}
 --- !u!70 &1224649076
 CapsuleCollider2D:
@@ -9471,7 +9471,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 880c6f7669f3d4581a9fd2e887063968, type: 3}
+  m_Model: {fileID: 0}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: RacingAI
@@ -9495,7 +9495,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 4000
+  MaxStep: 2000
   playerMovementScript: {fileID: 1242933159}
 --- !u!70 &1242933158
 CapsuleCollider2D:
@@ -9714,7 +9714,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 880c6f7669f3d4581a9fd2e887063968, type: 3}
+  m_Model: {fileID: 0}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: RacingAI
@@ -9738,7 +9738,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 4000
+  MaxStep: 2000
   playerMovementScript: {fileID: 1252567659}
 --- !u!70 &1252567658
 CapsuleCollider2D:
@@ -10035,7 +10035,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 880c6f7669f3d4581a9fd2e887063968, type: 3}
+  m_Model: {fileID: 0}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: RacingAI
@@ -10059,7 +10059,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 4000
+  MaxStep: 2000
   playerMovementScript: {fileID: 1261118785}
 --- !u!70 &1261118784
 CapsuleCollider2D:
@@ -10278,7 +10278,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 880c6f7669f3d4581a9fd2e887063968, type: 3}
+  m_Model: {fileID: 0}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: RacingAI
@@ -10302,7 +10302,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 4000
+  MaxStep: 2000
   playerMovementScript: {fileID: 1273090730}
 --- !u!70 &1273090729
 CapsuleCollider2D:
@@ -12135,7 +12135,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 880c6f7669f3d4581a9fd2e887063968, type: 3}
+  m_Model: {fileID: 0}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: RacingAI
@@ -12159,7 +12159,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 4000
+  MaxStep: 2000
   playerMovementScript: {fileID: 1673843553}
 --- !u!70 &1673843552
 CapsuleCollider2D:
@@ -13051,7 +13051,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 880c6f7669f3d4581a9fd2e887063968, type: 3}
+  m_Model: {fileID: 0}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: RacingAI
@@ -13075,7 +13075,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 4000
+  MaxStep: 2000
   playerMovementScript: {fileID: 1852741512}
 --- !u!70 &1852741511
 CapsuleCollider2D:
@@ -14144,7 +14144,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 880c6f7669f3d4581a9fd2e887063968, type: 3}
+  m_Model: {fileID: 0}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: RacingAI
@@ -14168,7 +14168,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 4000
+  MaxStep: 2000
   playerMovementScript: {fileID: 2066103614}
 --- !u!70 &2066103613
 CapsuleCollider2D:
@@ -14387,7 +14387,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 880c6f7669f3d4581a9fd2e887063968, type: 3}
+  m_Model: {fileID: 0}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: RacingAI
@@ -14411,7 +14411,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 4000
+  MaxStep: 2000
   playerMovementScript: {fileID: 2092918955}
 --- !u!70 &2092918954
 CapsuleCollider2D:

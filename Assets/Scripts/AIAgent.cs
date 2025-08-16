@@ -93,7 +93,6 @@ public class AIAgentScript : Agent
         }
         else
         {
-            AddReward(-0.8f);
             //car linear velocity may be in the range from 5-25?
             //AddReward(-playerMovementScript.GetCarLinearVelocity() * 0.1f);
             if (firstTimeOffTrack)
@@ -103,6 +102,7 @@ public class AIAgentScript : Agent
             }
             else
             {
+                AddReward(-0.8f * Mathf.Pow(Time.realtimeSinceStartup - lastTimeOffTrack, 2f));
                 if (Time.realtimeSinceStartup - lastTimeOffTrack > 5.0f) endEpisode = true;
             }
         }

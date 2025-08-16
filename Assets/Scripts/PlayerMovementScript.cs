@@ -55,7 +55,7 @@ public class PlayerMovementScript : MonoBehaviour
         //aggression = 0;
         //tightness = Random.value * 0.2f + 0.5f;
         pastPosition = gameObject.transform.position;
-        maxSpeed += (Random.value * 2) - 1;
+        maxSpeed -= Random.value * 5;
         initialWaypoint = nextWaypoint;
     }
 
@@ -355,6 +355,7 @@ public class PlayerMovementScript : MonoBehaviour
         }
         //steeringInput += Mathf.Sign(inputVector.x); //* Time.deltaTime;
         if (Mathf.Abs(steeringInput) > 1) steeringInput = Mathf.Sign(steeringInput);
+        if (steeringInput < 0) steeringInput *= 0.5;
         //}
 
         //detect slip stream, in the future maybe give AI a slipstream too?

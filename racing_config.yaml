@@ -1,7 +1,7 @@
 behaviors:
   RacingAI:
     trainer_type: ppo
-    max_steps: 50000
+    max_steps: 500000
     time_horizon: 64
     summary_freq: 10000
     network_settings:

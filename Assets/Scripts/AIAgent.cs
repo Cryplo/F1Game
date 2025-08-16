@@ -20,6 +20,7 @@ public class AIAgentScript : Agent
     Vector2 startPosition;
     Quaternion startRotation;
     float lastDistanceToWaypoint = 0f;
+    float lastTime = 0f;
 
     //true if lastDistanceToWaypoint variable is valid to use for finding a difference. Two conditions
     //One, lastDistanceToWaypoint has been set already (there has already been a frame where we have recorded lastDistanceToWaypoint)
@@ -29,6 +30,7 @@ public class AIAgentScript : Agent
     {
         startPosition = playerMovementScript.GetStartTransform().position;
         startRotation = playerMovementScript.GetStartTransform().rotation;
+        lastTime = Time.realtimeSinceStartup;
     }
 
     void FixedUpdate()
@@ -40,6 +42,7 @@ public class AIAgentScript : Agent
     {
         // collect linear car velocity
         sensor.AddObservation(playerMovementScript.GetCarLinearVelocity());
+        //AddReward(playerMovementScript.GetCarLinearVelocity() * 3f);
 
         //collect when at next waypoint (this should also solve the reverse direction issue)
         //calling IsAtWaypoint is necessary for playermovemnt script to function correctly for AI!!! (I think lol)
@@ -47,8 +50,11 @@ public class AIAgentScript : Agent
         sensor.AddObservation(isAtWaypoint);
         if (isAtWaypoint)
         {
-            AddReward(100f);
+            //asume maybe 5 seconds to reach next waypoint and scale accordingly
+            //square to favor faster speeds even more
+            AddReward(Mathf.pow((10 - (Time.realtimeSinceStartup - lastTime)) * 0.1, 2f));
             useLastDistanceToWaypoint = false; //since waypoint has been advanced, then skip the calculating for this frame
+            lastTime = Time.realtimeSinceStartup;
         }
         //collect distance to next waypoint
         float distanceToNextWaypoint = playerMovementScript.DistanceToNextWaypoint();
@@ -60,19 +66,20 @@ public class AIAgentScript : Agent
             //doing 4 in one frame has higher reward due to power
             if ((lastDistanceToWaypoint - distanceToNextWaypoint) < 0)
             {
-                        AddReward(Mathf.Pow(Mathf.Abs(lastDistanceToWaypoint - distanceToNextWaypoint), 1.5f) * -20f);
+                        //AddReward(Mathf.Pow(Mathf.Abs(lastDistanceToWaypoint - distanceToNextWaypoint), 1.2f) * -1f);
                     }
             else
             {
-                AddReward(Mathf.Pow(Mathf.Abs(lastDistanceToWaypoint - distanceToNextWaypoint), 1.5f) * 10f);
+                //250 reward / 4000 steps = 0.0625 reward per step for this add reward very approximately
+                AddReward(Mathf.Pow(Mathf.Abs(lastDistanceToWaypoint - distanceToNextWaypoint), 1.05f) * 0.5f);
             }
-            }
+        }
         lastDistanceToWaypoint = distanceToNextWaypoint;
         useLastDistanceToWaypoint = true;
 
         float degreesToNextWaypoint = playerMovementScript.DegreesToNextWaypoint();
         sensor.AddObservation(degreesToNextWaypoint);
-        //AddReward((360 - Mathf.Abs(degreesToNextWaypoint)) * 0.01f);
+        //AddReward((180 - Mathf.Abs(degreesToNextWaypoint)) * 10000000f);
 
         //collect if on track
         bool isOnTrack = playerMovementScript.IsOnTrack();
@@ -80,7 +87,8 @@ public class AIAgentScript : Agent
         if (isOnTrack) AddReward(0f); //if I leave this in the episodes could take longer
         else
         {
-            AddReward(0f);
+            //car linear velocity may be in the range from 5-25?
+            //AddReward(-playerMovementScript.GetCarLinearVelocity() * 0.1f);
             endEpisode = true;
         }
         //collect the raycast results
@@ -90,13 +98,14 @@ public class AIAgentScript : Agent
             sensor.AddObservation(raycastResults[i]);
         }
 
-        //4 + 122 = 126 total observations
+        //4 + 19 * 2 = 42 total observations
     }
     //actions are left/right arrow (or none) (three options)
     //forward/backward (or none) (three options)
     //space (or none) (two options)
     public override void OnActionReceived(ActionBuffers actions)
     {
+        //if(actions.DiscreteActions[1] - 1 == -1) AddReward(-10000f);
         //horizontal input, vertical input, brake input (returns an int, so 1 will be true and 0 will be false)
         playerMovementScript.SetAIInputs(actions.DiscreteActions[0] - 1, actions.DiscreteActions[1] - 1, actions.DiscreteActions[2] == 1);
     }

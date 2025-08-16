@@ -1,7 +1,7 @@
 behaviors:
   RacingAI:
     trainer_type: ppo
-    max_steps: 2000000
+    max_steps: 6000000
     time_horizon: 64
     summary_freq: 10000
     network_settings:
@@ -12,3 +12,7 @@ behaviors:
       extrinsic:
         gamma: 0.99
         strength: 1.0
+    hyperparameters:
+      batch_size: 128
+      buffer_size: 1280
+      # learning_rate: 1e-5

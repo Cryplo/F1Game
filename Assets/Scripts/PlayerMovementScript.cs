@@ -43,6 +43,8 @@ public class PlayerMovementScript : MonoBehaviour
     float aiVerticalInput = 0f;
     bool aiBrakeInput = false;
 
+    WaypointScript initialWaypoint;
+
     Vector2 pastPosition = Vector2.zero;
     // Start is called before the first frame update
     void Start()
@@ -54,6 +56,7 @@ public class PlayerMovementScript : MonoBehaviour
         //tightness = Random.value * 0.2f + 0.5f;
         pastPosition = gameObject.transform.position;
         maxSpeed += (Random.value * 2) - 1;
+        initialWaypoint = nextWaypoint;
     }
 
     // Update is called once per frame
@@ -69,6 +72,7 @@ public class PlayerMovementScript : MonoBehaviour
         ApplyEngineForce();
         KillOrthogonalVelocity();
         ApplySteering();
+        //if (!isAI) Debug.Log((nextWaypoint.gameObject.transform.position - gameObject.transform.position).magnitude);
     }
 
     Vector2 Rotate(Vector2 v, float degrees)
@@ -458,7 +462,7 @@ public class PlayerMovementScript : MonoBehaviour
     //this is intended for the AIAgent
     public bool IsAtWaypoint()
     {
-        bool advanceWaypoint = (nextWaypoint.gameObject.transform.position - gameObject.transform.position).magnitude <= 7;
+        bool advanceWaypoint = (nextWaypoint.gameObject.transform.position - gameObject.transform.position).magnitude <= 3.0f;
 
         if (advanceWaypoint)
         {
@@ -472,11 +476,13 @@ public class PlayerMovementScript : MonoBehaviour
 
     public float DistanceToNextWaypoint()
     {
+        if (!isAI) Debug.Log("Distance to next waypoint " + (nextWaypoint.gameObject.transform.position - gameObject.transform.position).magnitude);
         return (nextWaypoint.gameObject.transform.position - gameObject.transform.position).magnitude;
     }
 
     public float DegreesToNextWaypoint()
     {
+        if (!isAI) Debug.Log("Degrees to next waypoint " + Vector2.SignedAngle(transform.up, nextWaypoint.gameObject.transform.position - gameObject.transform.position));
         return Vector2.SignedAngle(transform.up, nextWaypoint.gameObject.transform.position - gameObject.transform.position);
     }
 
@@ -490,9 +496,9 @@ public class PlayerMovementScript : MonoBehaviour
     // "distance" will be a percentange of max distance
     public List<float> GetRaycastResults()
     {
-        float raycastDistance = maxSpeed * 2;
+        float raycastDistance = 80;
         List<float> raycastResults = new List<float>();
-        for (int i = -90; i <= 90; i += 3)
+        for (int i = -90; i <= 90; i += 10)
         {
             Vector2 direction = Rotate(transform.up, i);
             Vector2 position = (Vector2)transform.position;
@@ -561,6 +567,8 @@ public class PlayerMovementScript : MonoBehaviour
         aiHorizontalInput = 0f;
         aiVerticalInput = 0f;
         aiBrakeInput = false;
+
+        nextWaypoint = initialWaypoint;
 
         //Debug.Log("AI has been reset");
         //Debug.Log(startTransform.position);

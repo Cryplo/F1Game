@@ -20,17 +20,17 @@ public class AIAgentScript : Agent
     Vector2 startPosition;
     Quaternion startRotation;
     float lastDistanceToWaypoint = 0f;
-    float lastTime = 0f;
+    float lastTimeOffTrack = 0f;
 
     //true if lastDistanceToWaypoint variable is valid to use for finding a difference. Two conditions
     //One, lastDistanceToWaypoint has been set already (there has already been a frame where we have recorded lastDistanceToWaypoint)
     //Two, the waypoint used for this variable has not changed
     bool useLastDistanceToWaypoint = false;
+    bool firstTimeOffTrack = true;
     void Start()
     {
         startPosition = playerMovementScript.GetStartTransform().position;
         startRotation = playerMovementScript.GetStartTransform().rotation;
-        lastTime = Time.realtimeSinceStartup;
     }
 
     void FixedUpdate()
@@ -53,9 +53,8 @@ public class AIAgentScript : Agent
             //asume maybe 5 seconds to reach next waypoint and scale accordingly
             //square to favor faster speeds even more
             //AddReward(Mathf.Pow((10f - (Time.realtimeSinceStartup - lastTime)) * 0.1f, 2f));
-            AddReward(1.0f);
+            //AddReward(1.0f);
             useLastDistanceToWaypoint = false; //since waypoint has been advanced, then skip the calculating for this frame
-            lastTime = Time.realtimeSinceStartup;
         }
         //collect distance to next waypoint
         float distanceToNextWaypoint = playerMovementScript.DistanceToNextWaypoint();
@@ -74,7 +73,7 @@ public class AIAgentScript : Agent
                 //250 reward / 4000 steps = 0.0625 reward per step for this add reward very approximately
                 //once AI gets close then don't try to reward it for going close to the waypoint but let it take the corner
                 //how it wants
-                if (distanceToNextWaypoint > 6.0f) AddReward(Mathf.Pow(Mathf.Abs(lastDistanceToWaypoint - distanceToNextWaypoint), 1.1f) * 0.5f);
+                AddReward(Mathf.Pow(Mathf.Abs(lastDistanceToWaypoint - distanceToNextWaypoint), 1.1f) * 0.5f);
             }
         }
         lastDistanceToWaypoint = distanceToNextWaypoint;
@@ -87,12 +86,25 @@ public class AIAgentScript : Agent
         //collect if on track
         bool isOnTrack = playerMovementScript.IsOnTrack();
         sensor.AddObservation(isOnTrack);
-        if (isOnTrack) AddReward(0.01f); //if I leave this in the episodes could take longer
+        if (isOnTrack)
+        {
+            AddReward(0.01f); //if I leave this in the episodes could take longer
+            firstTimeOffTrack = true;
+        }
         else
         {
+            AddReward(-0.8f);
             //car linear velocity may be in the range from 5-25?
             //AddReward(-playerMovementScript.GetCarLinearVelocity() * 0.1f);
-            endEpisode = true;
+            if (firstTimeOffTrack)
+            {
+                firstTimeOffTrack = false;
+                lastTimeOffTrack = Time.realtimeSinceStartup;
+            }
+            else
+            {
+                if (Time.realtimeSinceStartup - lastTimeOffTrack > 5.0f) endEpisode = true;
+            }
         }
         //collect the raycast results
         List<float> raycastResults = playerMovementScript.GetRaycastResults();

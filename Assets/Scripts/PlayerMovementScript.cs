@@ -462,7 +462,7 @@ public class PlayerMovementScript : MonoBehaviour
     //this is intended for the AIAgent
     public bool IsAtWaypoint()
     {
-        bool advanceWaypoint = (nextWaypoint.gameObject.transform.position - gameObject.transform.position).magnitude <= 3.0f;
+        bool advanceWaypoint = (nextWaypoint.gameObject.transform.position - gameObject.transform.position).magnitude <= 7.0f;
 
         if (advanceWaypoint)
         {

@@ -80,7 +80,7 @@ public class AIAgentScript : Agent
         useLastDistanceToWaypoint = true;
 
         float degreesToNextWaypoint = playerMovementScript.DegreesToNextWaypoint();
-        sensor.AddObservation(degreesToNextWaypoint);
+        sensor.AddObservation(degreesToNextWaypoint); //unnormalize for models including and before second_id_7_second_checkpoint?
         //AddReward((180 - Mathf.Abs(degreesToNextWaypoint)) * 10000000f);
 
         //collect if on track

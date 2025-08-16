@@ -52,7 +52,8 @@ public class AIAgentScript : Agent
         {
             //asume maybe 5 seconds to reach next waypoint and scale accordingly
             //square to favor faster speeds even more
-            AddReward(Mathf.pow((10 - (Time.realtimeSinceStartup - lastTime)) * 0.1, 2f));
+            //AddReward(Mathf.Pow((10f - (Time.realtimeSinceStartup - lastTime)) * 0.1f, 2f));
+            AddReward(1.0f);
             useLastDistanceToWaypoint = false; //since waypoint has been advanced, then skip the calculating for this frame
             lastTime = Time.realtimeSinceStartup;
         }
@@ -71,7 +72,9 @@ public class AIAgentScript : Agent
             else
             {
                 //250 reward / 4000 steps = 0.0625 reward per step for this add reward very approximately
-                AddReward(Mathf.Pow(Mathf.Abs(lastDistanceToWaypoint - distanceToNextWaypoint), 1.05f) * 0.5f);
+                //once AI gets close then don't try to reward it for going close to the waypoint but let it take the corner
+                //how it wants
+                if (distanceToNextWaypoint > 6.0f) AddReward(Mathf.Pow(Mathf.Abs(lastDistanceToWaypoint - distanceToNextWaypoint), 1.1f) * 0.5f);
             }
         }
         lastDistanceToWaypoint = distanceToNextWaypoint;
@@ -84,7 +87,7 @@ public class AIAgentScript : Agent
         //collect if on track
         bool isOnTrack = playerMovementScript.IsOnTrack();
         sensor.AddObservation(isOnTrack);
-        if (isOnTrack) AddReward(0f); //if I leave this in the episodes could take longer
+        if (isOnTrack) AddReward(0.01f); //if I leave this in the episodes could take longer
         else
         {
             //car linear velocity may be in the range from 5-25?
